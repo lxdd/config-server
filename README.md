@@ -5,7 +5,7 @@ $ keytool -genkeypair -alias mytestkey -keyalg RSA \
   -dname "CN=Web Server,OU=Unit,O=Organization,L=City,S=State,C=US" \
   -keypass changeme -keystore server.jks -storepass letmein
 
-#config-server 自查路径
+#config-server 自查路径 
 http://localhost:8402/autobot-res/dev/master
 #config 加密、解密
 curl -u user:37cc5635-559b-4e6f-b633-7e932b813f73  http://localhost:8402/encrypt -d lxdyun

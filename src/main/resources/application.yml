@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        overrides: # “属性覆盖 ” 特性 .为所有的应用提供配置属性
+#          from: shanghai
+          name: lxd
+        health: #健康检测器
+          repositories:
+            check: 
+              name: autobot-res
+              profiles: prod
+              label: master
+        git:
+          uri: https://github.com/lxdd/config-repo.git  # 配置git仓库的地址
+          username: lixiaodonglxd # git仓库的账号
+          password: 111111 # git仓库的密码
+          search-paths: /api-gateway,/autobot/,/autobot-res/ 
+#          basedir:      
+#是指定 一个固定的位置来存储这些重要信息
+
+#由于配置中心存储的内容比较敏感，做一定的安全处理是必需的.由于我们的微服务应用
+#和配置中心都构建于 Spring Boot 基础上，所以与 Spring Security 结合使用会更加方便
+
+#在配置文件中指定用户和密码
+security:
+  user:
+    name: user
+    password: 37cc5635-559b-4e6f-b633-7e932b813f73   
+    
+#配置密钥 我们可以通过 encrypt.key 属性在配置文件中直接指定密钥信息（对称性密钥）    
+#encrypt:
+#  key: lxdyun             
+#  key-store:
+#    location: classpath:config-server.jks
+#    password: 000000
+#    secret: 000000
+#    alias: config-server
+  
+encrypt:
+  key: lxdyun 
+  key-store:
+    location: classpath:/server.jks
+    password: letmein
+    alias: mytestkey
+    secret: changeme  
+  
+    
+server:
+  port: 8006
+  session:
+    timeout: 10
+  tomcat:
+    uri-encoding: UTF-8
+    
+#write log files in addition to the console output,Log files rotate when they reach 10 MB    
+logging:
+  path: /home/config/server/logs     
+  
+eureka:
+  instance:
+    prefer-ip-address: true # 注册时使用ip而不是主机名
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8001/eureka/,http://127.0.0.2:8001/eureka/
